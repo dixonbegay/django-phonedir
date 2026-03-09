@@ -1,0 +1,48 @@
+{% block title %}
+    {{ department.name }}
+{% endblock title %}
+{% block content %}
+    <div>
+        <p>
+            <strong>Supervisor:</strong> {{ department.supervisor.get_full_name|default:department.supervisor.username }}
+        </p>
+        {% for faxnumber in department.faxnumbers.all %}
+            <p>
+                <strong>{{ faxnumber.description }} {{ faxnumber.location }} — Fax Number:</strong> {{ faxnumber.phone }}
+            </p>
+        {% empty %}
+            <p>No fax numbers listed for this department.</p>
+        {% endfor %}
+        {% if department.contacts.all|length > 0 %}
+            <div class="grid">
+                {% for contact in department.contacts.all|dictsort:"last_name" %}
+                    <div class="cell">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="content">
+                                    <p class="title is-5">{{ contact.first_name }} {{ contact.last_name }}</p>
+                                    <p>
+                                        <strong>Title:</strong> {{ contact.title }}
+                                    </p>
+                                    <p>
+                                        <strong>Extension:</strong> {{ contact.extension }}
+                                    </p>
+                                    <p>
+                                        <strong>Location:</strong> {{ contact.location }}
+                                    </p>
+                                    <p>
+                                        <strong>Phone:</strong> {{ contact.phone }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>
+                <strong>No contacts listed.</strong>
+            </p>
+        {% endif %}
+    </div>
+{% endblock content %}

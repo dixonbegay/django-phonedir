@@ -1,0 +1,154 @@
+[
+    {
+        "model": "phonedir.contact",
+        "pk": 1,
+        "fields": {
+            "department": 1,
+            "first_name": "Daniel",
+            "last_name": "Spoon",
+            "title": "Director of Information Technology",
+            "extension": 21401,
+            "location": "Site A Room 201",
+            "phone": "(928) 555-1401"
+        }
+    },
+    {
+        "model": "phonedir.contact",
+        "pk": 2,
+        "fields": {
+            "department": 1,
+            "first_name": "Natlie",
+            "last_name": "Kelly",
+            "title": "Network Specialist",
+            "extension": 21402,
+            "location": "Site A Room 209",
+            "phone": "(928) 555-1402"
+        }
+    },
+    {
+        "model": "phonedir.contact",
+        "pk": 3,
+        "fields": {
+            "department": 1,
+            "first_name": "Eric",
+            "last_name": "Elliston",
+            "title": "Support Specialist",
+            "extension": 21403,
+            "location": "Site A Room 210",
+            "phone": "(928) 555-1403"
+        }
+    },
+    {
+        "model": "phonedir.contact",
+        "pk": 4,
+        "fields": {
+            "department": 1,
+            "first_name": "Lindsey",
+            "last_name": "Hogarth",
+            "title": "System Administrator",
+            "extension": 21404,
+            "location": "Site A Room 210",
+            "phone": "(928) 555-1404"
+        }
+    },
+    {
+        "model": "phonedir.contact",
+        "pk": 5,
+        "fields": {
+            "department": 2,
+            "first_name": "Jessie",
+            "last_name": "Nixon",
+            "title": "Director of HR",
+            "extension": 21501,
+            "location": "Site B Room 101",
+            "phone": "(928) 555-1501"
+        }
+    },
+    {
+        "model": "phonedir.contact",
+        "pk": 6,
+        "fields": {
+            "department": 2,
+            "first_name": "Jeremiah",
+            "last_name": "Isaacson",
+            "title": "HR Specialist",
+            "extension": 21502,
+            "location": "Site B Room 102",
+            "phone": "(928) 555-1502"
+        }
+    },
+    {
+        "model": "phonedir.contact",
+        "pk": 7,
+        "fields": {
+            "department": 2,
+            "first_name": "Lillian",
+            "last_name": "Kimberley",
+            "title": "Payroll Specialist",
+            "extension": 21503,
+            "location": "Site B Room 103",
+            "phone": "(928) 555-1503"
+        }
+    },
+    {
+        "model": "phonedir.contact",
+        "pk": 8,
+        "fields": {
+            "department": 2,
+            "first_name": "Christy",
+            "last_name": "Wembley",
+            "title": "Administrative Assistant",
+            "extension": 21504,
+            "location": "Site B Room 104",
+            "phone": "(928) 555-1504"
+        }
+    },
+    {
+        "model": "phonedir.department",
+        "pk": 1,
+        "fields": {
+            "name": "Information Technology",
+            "short_name": "it",
+            "supervisor": 1
+        }
+    },
+    {
+        "model": "phonedir.department",
+        "pk": 2,
+        "fields": {
+            "name": "Human Resources",
+            "short_name": "hr",
+            "supervisor": 2
+        }
+    },
+    {
+        "model": "phonedir.faxnumber",
+        "pk": 1,
+        "fields": {
+            "department": 1,
+            "description": "Main",
+            "phone": "(928) 555-6121",
+            "location": "Site A"
+        }
+    },
+    {
+        "model": "phonedir.faxnumber",
+        "pk": 2,
+        "fields": {
+            "department": 1,
+            "description": "Testing",
+            "phone": "(928) 555-6122",
+            "location": "Site A"
+        }
+    },
+    {
+        "model": "phonedir.faxnumber",
+        "pk": 3,
+        "fields": {
+            "department": 2,
+            "description": "Main",
+            "phone": "(928) 555-8132",
+            "location": "Site A"
+        }
+    }
+]

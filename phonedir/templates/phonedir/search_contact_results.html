@@ -1,0 +1,35 @@
+{% block title %}
+    Search Results
+{% endblock title %}
+{% block content %}
+    {% if contacts|length > 0 %}
+        <div class="grid">
+            {% for contact in contacts|dictsort:"last_name" %}
+                <div class="cell">
+                    <div class="card">
+                        <div class="card-content">
+                            <h3 class="title">{{ contact.first_name }} {{ contact.last_name }}</h3>
+                            <p>
+                                <strong>Title:</strong> {{ contact.title }}
+                            </p>
+                            <p>
+                                <strong>Extension:</strong> {{ contact.extension }}
+                            </p>
+                            <p>
+                                <strong>Location:</strong> {{ contact.location }}
+                            </p>
+                            <p>
+                                <strong>Phone:</strong> {{ contact.phone }}
+                            </p>
+                            <p>
+                                <strong>Department:</strong> <a href="{% url 'department_detail' contact.department.short_name %}">{{ contact.department.name }}</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <h3 class="title">No results.</h3>
+    {% endif %}
+{% endblock content %}

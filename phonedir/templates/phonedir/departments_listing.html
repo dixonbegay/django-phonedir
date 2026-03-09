@@ -1,0 +1,19 @@
+{% block title %}
+    Departments
+{% endblock title %}
+{% block content %}
+    {% for dept in departments %}
+        <div class="card">
+            <div class="card-content">
+                <a href="{% url 'department_detail' dept.short_name %}">
+                    <h3 class="title">{{ dept.name }}</h3>
+                </a>
+                <p>
+                    <strong>Supervisor:</strong> {{ dept.supervisor.get_full_name|default:dept.supervisor.username }}
+                </p>
+            </div>
+        </div>
+    {% empty %}
+        <p>No departments found.</p>
+    {% endfor %}
+{% endblock content %}
