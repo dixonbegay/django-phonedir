@@ -1,8 +1,8 @@
 # django_phonedir
-A reusable django app for a phone directory system.
+A reusable Django app for a phone directory system.
 
 ## Development
-This project is under active development by myself. This django app is functioning, but would like to setup more testing to ensure the package remains stable.
+This project is under active development by myself. This Django app is functioning, but would like to setup more testing to ensure the package remains stable.
 
 This project will eventually be published to PyPi in the near future so that it can easily be integrated into a Django website.
 
