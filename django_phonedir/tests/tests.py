@@ -5,7 +5,7 @@ from django.forms import Form
 from phonenumber_field.modelfields import PhoneNumberField
 import logging
 
-from phonedir.models import Department, FaxNumber, Contact
+from django_phonedir.models import Department, FaxNumber, Contact
 
 logger = logging.getLogger(__name__)
 

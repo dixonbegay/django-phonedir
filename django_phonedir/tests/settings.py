@@ -66,9 +66,9 @@ APPEND_SLASH = True
 USE_TZ = True
 
 if os.environ.get("SAMPLE_APP", False):
-    INSTALLED_APPS.remove("phonedir")
-    INSTALLED_APPS.append("phonedir.tests.PhoneDirTests")
-    NOTIFICATIONS_NOTIFICATION_MODEL = "phonedir.Notification"
+    INSTALLED_APPS.remove("django_phonedir")
+    INSTALLED_APPS.append("django_phonedir.tests.PhoneDirTests")
+    NOTIFICATIONS_NOTIFICATION_MODEL = "django_phonedir.Notification"
     TEMPLATES[0]["DIRS"] += [os.path.join(BASE_DIR, "../templates")]
 
 ALLOWED_HOSTS = []
