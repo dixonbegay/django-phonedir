@@ -1,4 +1,4 @@
-# Django Phonedir
+# django_phonedir
 A reusable django app for a phone directory system.
 
 ## Development

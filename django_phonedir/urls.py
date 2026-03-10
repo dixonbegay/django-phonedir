@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import (  # Assuming views.py is in the same app folder
+from django_phonedir.views import (  # Assuming views.py is in the same app folder
     DepartmentDetailView,
     DepartmentListView,
     SearchResultsView,

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from phonedir.models import Contact, Department, FaxNumber
+from django_phonedir.models import Contact, Department, FaxNumber
 
 
 @admin.register(Contact)

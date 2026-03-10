@@ -1,12 +1,12 @@
 from django.db.models import Q, query
 from django.views.generic import DetailView, ListView
 
-from .models import Contact, Department
+from django_phonedir.models import Contact, Department
 
 
 class DepartmentListView(ListView):
     model = Department
-    template_name = "phonedir/departments_listing.html"
+    template_name = "django_phonedir/departments_listing.html"
     context_object_name = "departments"
     ordering = "name"
 
@@ -17,14 +17,14 @@ class DepartmentListView(ListView):
 
 class DepartmentDetailView(DetailView):
     model = Department
-    template_name = "phonedir/department_detail.html"
+    template_name = "django_phonedir/department_detail.html"
     slug_field = "short_name"
     slug_url_kwarg = "short_name"
 
 
 class SearchResultsView(ListView):
     model = Contact
-    template_name = "phonedir/search_contact_results.html"
+    template_name = "django_phonedir/search_contact_results.html"
     context_object_name = "contacts"
 
     def get_queryset(self) -> query.QuerySet[Contact]:
