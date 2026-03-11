@@ -5,7 +5,8 @@ name = "pypi"
 
 [packages]
 django = "*"
-django-phonenumber-field = {extras = ["phonenumberslite"], version = "*"}
+django-phonenumber-field = "*"
+phonenumberslite = "*"
 
 [dev-packages]
 djlint = "*"
@@ -14,3 +15,6 @@ ruff = "*"
 [requires]
 python_version = "3.14"
 python_full_version = "3.14.0"
+
+[scripts]
+test = "python runtests.py"
