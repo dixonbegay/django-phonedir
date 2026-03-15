@@ -22,6 +22,17 @@ INSTALLED_APPS = [
     ...
 ]
 ```
+Add URL path to your main urls.py file like so...
+
+```
+from django.urls import include, path
+
+urlspatterns = [
+    ...
+    path("", include("django_phonedir.urls")),
+    ...
+]
+```
 
 ## Development
 
