@@ -23,7 +23,7 @@ INSTALLED_APPS = [
 ]
 ```
 
-### URL Paths
+## URL Paths
 
 By default, there are certain URL paths that are provided to help get you
 started. The built-in URL paths and templates can be utilized by adding
@@ -55,6 +55,38 @@ listing of the paths with the associated views and template names.
   - View: SearchResultsView
   - Template Name: search_results
   - Template File: search_contact_results.html
+
+## Models
+
+To a model, import from `django_phonedir.models` like so...
+```
+from django_phonedir.models import Department, FaxNumber, Contact
+```
+
+Below is a listing of each model, their attributes, and description for each attribute..
+
+### Department
+
+- name : Name of the department.
+- short_name : Short name that is used in the URL.
+- supervisor : Foreign key that points to a user (typically the supervisor).
+
+### FaxNumber
+
+- department : Foreign key that points to a Department model.
+- description : Description of the fax number.
+- phone : PhoneNumberField
+- location: Location of fax number.
+
+### Contact
+
+- department : Foreign key that points to a Department model.
+- first_name : First name.
+- last_name : Last name.
+- title : Job title.
+- extension : Phone extension.
+- location : location the user.
+- phone : PhoneNumberField (can be blank.)
 
 ## Development
 
