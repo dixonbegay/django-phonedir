@@ -22,7 +22,13 @@ INSTALLED_APPS = [
     ...
 ]
 ```
-Add URL path to your main urls.py file like so...
+
+### URL Paths
+
+By default, there are certain URL paths that are provided to help get you
+started. The built-in URL paths and templates can be utilized by adding
+`django_phonedir.urls` to your main list of urlpatterns in a urls.py file like
+so...
 
 ```
 from django.urls import include, path
@@ -33,6 +39,22 @@ urlspatterns = [
     ...
 ]
 ```
+
+You don't have to use these URL paths and associated templates. Below is a
+listing of the paths with the associated views and template names.
+
+- Path: departments
+  - View: DepartmentListView
+  - Template Name: department_list
+  - Template File: department_listing.html
+- Path: department/<slug:short_name>/
+  - View: DepartmentDetailView
+  - Template Name: department_detail
+  - Template File: department_detail.html
+- Path: search
+  - View: SearchResultsView
+  - Template Name: search_results
+  - Template File: search_contact_results.html
 
 ## Development
 
