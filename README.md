@@ -43,15 +43,15 @@ urlspatterns = [
 You don't have to use these URL paths and associated templates. Below is a
 listing of the paths with the associated views and template names.
 
-- Path: departments
+- Path: `departments`
   - View: DepartmentListView
   - Template Name: department_list
   - Template File: department_listing.html
-- Path: department/<slug:short_name>/
+- Path: `department/<slug:short_name>/`
   - View: DepartmentDetailView
   - Template Name: department_detail
   - Template File: department_detail.html
-- Path: search
+- Path: `search`
   - View: SearchResultsView
   - Template Name: search_results
   - Template File: search_contact_results.html
