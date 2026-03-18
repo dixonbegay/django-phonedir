@@ -58,7 +58,7 @@ listing of the paths with the associated views and template names.
 
 ## Models
 
-To a model, import from `django_phonedir.models` like so...
+To use a model, import from `django_phonedir.models` like so...
 ```
 from django_phonedir.models import Department, FaxNumber, Contact
 ```
