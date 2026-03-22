@@ -5,6 +5,11 @@ A reusable Django app for a phone directory system.
 Tested and known to work with Django 5.2 and newer. Tested with Python 3.12 and
 newer.
 
+## Requirements
+Python >= 3.12
+Bulma CSS
+Django >= 5.2
+
 ## Installation
 
 Install via pip.
