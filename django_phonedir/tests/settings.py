@@ -1,5 +1,33 @@
 import os
 
+LOGGING = {
+    "version": 1,  # the dictConfig format version
+    "disable_existing_loggers": False,  # retain the default loggers
+    "formatters": {
+        "simple": {
+            "format": "{levelname} {asctime} {name} {message}",
+            "style": "{",
+        },
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": True,
+        },
+    },
+}
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 SECRET_KEY = "secret_key"
 
@@ -13,15 +41,11 @@ DATABASES = {
     }
 }
 
-# Django < 2.0
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
-)
-
-# Django >= 2.0
-MIDDLEWARE = MIDDLEWARE_CLASSES
+]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -33,7 +57,7 @@ INSTALLED_APPS = [
     "django_phonedir",
 ]
 
-ROOT_URLCONF = "django_phonedir.tests.urls"
+ROOT_URLCONF = "django_phonedir.urls"
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
@@ -65,13 +89,5 @@ APPEND_SLASH = True
 
 USE_TZ = True
 
-if os.environ.get("SAMPLE_APP", False):
-    INSTALLED_APPS.remove("django_phonedir")
-    INSTALLED_APPS.append("django_phonedir.tests.PhoneDirTests")
-    NOTIFICATIONS_NOTIFICATION_MODEL = "django_phonedir.Notification"
-    TEMPLATES[0]["DIRS"] += [os.path.join(BASE_DIR, "../templates")]
-
 ALLOWED_HOSTS = []
-# Since "notifications.tests.test_models" does not have an app config,
-# we need to set the default_auto_field here
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
