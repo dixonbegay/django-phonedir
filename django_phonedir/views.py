@@ -5,6 +5,9 @@ from django_phonedir.models import Contact, Department
 
 
 class DepartmentListView(ListView):
+    """
+    Django class based view that shows a list of all department models.
+    """
     model = Department
     template_name = "django_phonedir/departments_listing.html"
     context_object_name = "departments"
@@ -16,6 +19,11 @@ class DepartmentListView(ListView):
 
 
 class DepartmentDetailView(DetailView):
+    """
+    Django class based view that shows a detailed view of a specific department.
+    The view can be utilized in a URL using "short_name" as a slug in the URL like so:
+    "/department/short_name=information%20technology/"
+    """
     model = Department
     template_name = "django_phonedir/department_detail.html"
     slug_field = "short_name"
@@ -23,6 +31,9 @@ class DepartmentDetailView(DetailView):
 
 
 class SearchResultsView(ListView):
+    """
+    Django class based view that shows a list of contact models that match the query.
+    """
     model = Contact
     template_name = "django_phonedir/search_contact_results.html"
     context_object_name = "contacts"

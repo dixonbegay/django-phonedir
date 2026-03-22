@@ -7,6 +7,10 @@ User = settings.AUTH_USER_MODEL
 
 
 class Department(models.Model):
+    """
+    Django model representing a deparmtent of a company.
+    """
+
     name = models.CharField(
         max_length=64, unique=True, help_text="Name of the department."
     )
@@ -24,13 +28,23 @@ class Department(models.Model):
     )
 
     def __str__(self):
+        """
+        String for representing the model object name.
+        Specifically, this returns whatever value was set to name for the model.
+        """
         return self.name
 
     def get_absolute_url(self):
+        """
+        Returns the URL to access a particular instance of the model.
+        """
         return reverse("department_detail", kwargs={"short_name": self.short_name})
 
 
 class FaxNumber(models.Model):
+    """
+    Django model representing a fax number for a department.
+    """
     department = models.ForeignKey(
         Department, on_delete=models.CASCADE, related_name="faxnumbers"
     )
@@ -39,12 +53,18 @@ class FaxNumber(models.Model):
     location = models.CharField(max_length=64)
 
     def __str__(self):
+        """
+        Returns the string representation of the model as "{phone} {department}".
+        """
         return "{phone} {department}".format(
             phone=self.phone, department=self.department
         )
 
 
 class Contact(models.Model):
+    """
+    Django model representing a contact for a department.
+    """
     department = models.ForeignKey(
         Department, on_delete=models.CASCADE, related_name="contacts"
     )
@@ -56,6 +76,9 @@ class Contact(models.Model):
     phone = PhoneNumberField(blank=True)
 
     def __str__(self):
+        """
+        Returns the string representation of the model as "{first_name} {last_name} (Ext: {extension})".
+        """
         return "{first_name} {last_name} (Ext: {extension})".format(
             first_name=self.first_name,
             last_name=self.last_name,
