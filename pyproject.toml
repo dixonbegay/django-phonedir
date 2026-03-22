@@ -1,0 +1,67 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "django-phonedir"
+dynamic = ["version"]
+description = "A reusable Django app for a phone directory system."
+readme = "README.md"
+license = { text = "LGPL-3.0-or-later" }
+requires-python = ">=3.12"
+authors = [{ name = "Dixon Begay", email = "dixon@dixon-labs.net" }]
+dependencies = ["Django>=5.2", "django-phonenumber-field>=8.4.0", "phonenumberslite>7.0.2"]
+classifiers = [
+    "Framework :: Django",
+    "Framework :: Django :: 5.2",
+    "Framework :: Django :: 6",
+    "Framework :: Django :: 6.0",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
+    "Topic :: Internet",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Internet :: WWW/HTTP :: Browsers",
+    "Topic :: Office/Business",
+    "Topic :: Software Development",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+
+]
+keywords = [
+    "django",
+    "reusable",
+    "app",
+    "phonedir",
+    "phone",
+    "dir",
+    "directory",
+    "book",
+    "company",
+    "intranet",
+    "ldap",
+    "internal",
+]
+
+[project.urls]
+Homepage = "https://github.com/dixonbegay/django-phonedir"
+Repository = "https://github.com/dixonbegay/django-phonedir.git"
+Issues = "https://github.com/dixonbegay/django-phonedir/issues"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.targets.wheel]
+include = ["templates/*", "static/*", "templates/*/*", "static/*/*"]
+only-include = ["django_phonedir", "LICENSE", "README.md"]
+exclude = ["*.json", "*.ini", "*.sh", "Pipfile", "Pipfile.lock"]
