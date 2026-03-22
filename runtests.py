@@ -5,11 +5,11 @@ from django.conf import settings
 from django.test.utils import get_runner
 
 def run_tests():
-    os.environ['DJANGO_SETTINGS_MODULE'] = 'tests.settings'
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'django_phonedir.tests.settings'
     django.setup()
     TestRunner = get_runner(settings)
     test_runner = TestRunner()
-    failures = test_runner.run_tests(["tests"])
+    failures = test_runner.run_tests(["django_phonedir.tests"])
     sys.exit(bool(failures))
 
 if __name__ == "__main__":
