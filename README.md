@@ -6,9 +6,11 @@ Tested and known to work with Django 5.2 and newer. Tested with Python 3.12 and
 newer.
 
 ## Requirements
-Python >= 3.12
-Bulma CSS
-Django >= 5.2
+- Python >= 3.12
+- Bulma CSS
+- Django >= 5.2
+- django-phonenumber-field >= 8.4.0
+- phonenumberslite >= 9.0.26
 
 ## Installation
 
@@ -95,12 +97,7 @@ Below is a listing of each model, their attributes, and description for each att
 
 ## Development
 
-This project is under active development by myself. This Django app is
-functioning, but would like to setup more testing to ensure the package remains
-stable.
-
-This project will eventually be published to PyPi in the near future so that it
-can easily be integrated into a Django website.
+This project is under active development by myself.
 
 I will develop better documentation at a later date.
 
@@ -114,4 +111,4 @@ pipenv install --dev
 
 ### Testing
 
-Tests can be run using the command: `pipenv run`
+Tests can be run using the command: `pipenv run test`
