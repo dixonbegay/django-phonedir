@@ -7,7 +7,7 @@ newer.
 
 ## Requirements
 - Python >= 3.12
-- Bulma CSS
+- [Bulma CSS](https://bulma.io/) (only for provided templates)
 - Django >= 5.2
 - django-phonenumber-field >= 8.4.0
 - phonenumberslite >= 9.0.26
@@ -16,13 +16,13 @@ newer.
 
 Install via pip.
 
-```
+```bash
 pip install django-phonedir
 ```
 
 Add to Django settings `INSTALLED_APPS` like so...
 
-```
+```python
 INSTALLED_APPS = [
     ...
     "django-phonedir",
@@ -37,7 +37,7 @@ started. The built-in URL paths and templates can be utilized by adding
 `django_phonedir.urls` to your main list of urlpatterns in a urls.py file like
 so...
 
-```
+```python
 from django.urls import include, path
 
 urlspatterns = [
@@ -63,6 +63,18 @@ listing of the paths with the associated views and template names.
   - Template Name: search_results
   - Template File: search_contact_results.html
 
+## Templates
+The templates that are provided require Bulma version 1.0.4 or newer, and Font Awesome version 7.0.1 or newer. You can copy the below and add to your base template file to get started quickly.
+
+```HTML
+<!-- Bulma CSS CDN -->
+<link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+<!-- Font Awesome for Icons -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+<style>
+```
 ## Models
 
 To use a model, import from `django_phonedir.models` like so...
@@ -105,10 +117,13 @@ I will develop better documentation at a later date.
 
 Use pipenv for managing the package requirements for development.
 
-```
+```bash
 pipenv install --dev
 ```
 
 ### Testing
 
-Tests can be run using the command: `pipenv run test`
+Tests can be run using the command below.
+```bash
+pipenv run test
+```
