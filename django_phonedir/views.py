@@ -1,4 +1,4 @@
-from django.db.models import Q, query
+from django.db.models import Q, QuerySet
 from django.views.generic import DetailView, ListView
 
 from django_phonedir.models import Contact, Department
@@ -29,6 +29,9 @@ class DepartmentDetailView(DetailView):
     slug_field = "short_name"
     slug_url_kwarg = "short_name"
 
+    def get_queryset(self):
+        return Department.objects.prefetch_related("contacts", "faxnumbers")
+
 
 class SearchResultsView(ListView):
     """
@@ -38,7 +41,7 @@ class SearchResultsView(ListView):
     template_name = "django_phonedir/search_contact_results.html"
     context_object_name = "contacts"
 
-    def get_queryset(self) -> query.QuerySet[Contact]:
+    def get_queryset(self) -> QuerySet[Contact]:
         query_request = self.request.GET.get("q")
         contact_list = Contact.objects.filter(
             Q(last_name__icontains=query_request)
