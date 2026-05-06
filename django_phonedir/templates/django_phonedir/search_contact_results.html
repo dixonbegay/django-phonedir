@@ -4,7 +4,7 @@
 {% block content %}
     {% if contacts|length > 0 %}
         <div class="grid">
-            {% for contact in contacts|dictsort:"last_name" %}
+            {% for contact in contacts %}
                 <div class="cell">
                     <div class="card">
                         <div class="card-content">
