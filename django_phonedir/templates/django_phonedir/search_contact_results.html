@@ -3,33 +3,31 @@
 {% endblock title %}
 {% block content %}
     {% if contacts|length > 0 %}
-        <div class="grid">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {% for contact in contacts %}
-                <div class="cell">
-                    <div class="card">
-                        <div class="card-content">
-                            <h3 class="title">{{ contact.first_name }} {{ contact.last_name }}</h3>
-                            <p>
-                                <strong>Title:</strong> {{ contact.title }}
-                            </p>
-                            <p>
-                                <strong>Extension:</strong> {{ contact.extension }}
-                            </p>
-                            <p>
-                                <strong>Location:</strong> {{ contact.location }}
-                            </p>
-                            <p>
-                                <strong>Phone:</strong> {{ contact.phone }}
-                            </p>
-                            <p>
-                                <strong>Department:</strong> <a href="{% url 'department_detail' contact.department.short_name %}">{{ contact.department.name }}</a>
-                            </p>
-                        </div>
+                <div class="card bg-base-100 shadow">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ contact.first_name }} {{ contact.last_name }}</h3>
+                        <p>
+                            <strong>Title:</strong> {{ contact.title }}
+                        </p>
+                        <p>
+                            <strong>Extension:</strong> {{ contact.extension }}
+                        </p>
+                        <p>
+                            <strong>Location:</strong> {{ contact.location }}
+                        </p>
+                        <p>
+                            <strong>Phone:</strong> {{ contact.phone }}
+                        </p>
+                        <p>
+                            <strong>Department:</strong> <a href="{% url 'department_detail' contact.department.short_name %}">{{ contact.department.name }}</a>
+                        </p>
                     </div>
                 </div>
             {% endfor %}
         </div>
     {% else %}
-        <h3 class="title">No results.</h3>
+        <h3 class="text-xl font-bold">No results.</h3>
     {% endif %}
 {% endblock content %}

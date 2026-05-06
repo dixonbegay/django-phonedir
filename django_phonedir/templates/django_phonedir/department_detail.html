@@ -14,27 +14,23 @@
             <p>No fax numbers listed for this department.</p>
         {% endfor %}
         {% if department.contacts.all|length > 0 %}
-            <div class="grid">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {% for contact in department.contacts.all|dictsort:"last_name" %}
-                    <div class="cell">
-                        <div class="card">
-                            <div class="card-content">
-                                <div class="content">
-                                    <p class="title is-5">{{ contact.first_name }} {{ contact.last_name }}</p>
-                                    <p>
-                                        <strong>Title:</strong> {{ contact.title }}
-                                    </p>
-                                    <p>
-                                        <strong>Extension:</strong> {{ contact.extension }}
-                                    </p>
-                                    <p>
-                                        <strong>Location:</strong> {{ contact.location }}
-                                    </p>
-                                    <p>
-                                        <strong>Phone:</strong> {{ contact.phone }}
-                                    </p>
-                                </div>
-                            </div>
+                    <div class="card bg-base-100 shadow">
+                        <div class="card-body">
+                            <h2 class="card-title">{{ contact.first_name }} {{ contact.last_name }}</h2>
+                            <p>
+                                <strong>Title:</strong> {{ contact.title }}
+                            </p>
+                            <p>
+                                <strong>Extension:</strong> {{ contact.extension }}
+                            </p>
+                            <p>
+                                <strong>Location:</strong> {{ contact.location }}
+                            </p>
+                            <p>
+                                <strong>Phone:</strong> {{ contact.phone }}
+                            </p>
                         </div>
                     </div>
                 {% endfor %}

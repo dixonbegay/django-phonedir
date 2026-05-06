@@ -7,7 +7,7 @@ newer.
 
 ## Requirements
 - Python >= 3.12
-- [Bulma CSS](https://bulma.io/) (only for provided templates)
+- [daisyUI](https://daisyui.com/) (only for provided templates)
 - Django >= 5.2
 - django-phonenumber-field >= 8.4.0
 - phonenumberslite >= 9.0.26
@@ -64,12 +64,14 @@ listing of the paths with the associated views and template names.
   - Template File: search_contact_results.html
 
 ## Templates
-The templates that are provided require Bulma version 1.0.4 or newer, and Font Awesome version 7.0.1 or newer. You can copy the below and add to your base template file to get started quickly.
+The templates that are provided require daisyUI version 5.5 or newer, Tailwind version 4 or newer, and Font Awesome version 7.0.1 or newer. You can copy the below and add to your base template file to get started quickly.
 
 ```HTML
-<!-- Bulma CSS CDN -->
-<link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+<!-- DaisyUI + Tailwind CSS -->
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <!-- Font Awesome for Icons -->
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
