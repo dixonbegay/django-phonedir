@@ -55,5 +55,14 @@ class DepartmentAdmin(admin.ModelAdmin):
         # Only allows users with is_staff = True to see this in the admin
         return request.user.is_staff
 
-    def has_permission(self, request, obj=None):
+    def has_view_permission(self, request, obj=None):
+        return request.user.is_staff
+
+    def has_add_permission(self, request):
+        return request.user.is_staff
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_staff
+
+    def has_delete_permission(self, request, obj=None):
         return request.user.is_staff

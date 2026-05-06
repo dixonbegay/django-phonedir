@@ -201,12 +201,18 @@ class PhoneDirTests(TestCase):
         # Test with a staff user
         request.user = User(is_staff=True)
         self.assertTrue(department_admin.has_module_permission(request))
-        self.assertTrue(department_admin.has_permission(request))
+        self.assertTrue(department_admin.has_view_permission(request))
+        self.assertTrue(department_admin.has_add_permission(request))
+        self.assertTrue(department_admin.has_change_permission(request))
+        self.assertTrue(department_admin.has_delete_permission(request))
 
         # Test with a regular user
         request.user = User(is_staff=False)
         self.assertFalse(department_admin.has_module_permission(request))
-        self.assertFalse(department_admin.has_permission(request))
+        self.assertFalse(department_admin.has_view_permission(request))
+        self.assertFalse(department_admin.has_add_permission(request))
+        self.assertFalse(department_admin.has_change_permission(request))
+        self.assertFalse(department_admin.has_delete_permission(request))
 
     def test_admin_classes_smoke_instantiation(self):
         # Ensures the admin module defines all expected ModelAdmin classes.
