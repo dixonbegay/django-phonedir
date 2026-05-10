@@ -33,6 +33,14 @@ class PhoneDirTests(TestCase):
             is_staff=True,
         )
 
+        cls.nonsupervisor = User.objects.create_user(
+            username="nonsupervisor",
+            password="password",
+            first_name="nonsuper",
+            last_name="visor",
+            is_staff=True,
+        )
+
         cls.dept_it = Department.objects.create(
             name="Information Technology",
             short_name="IT",
@@ -238,20 +246,19 @@ class PhoneDirTests(TestCase):
 
         inline = ContactInline(Department, django_admin.site)
 
-        # Supervisor can add contacts to their department (obj = parent Department)
+        # Supervisor can add/view/change/delete contacts to their department (obj = parent Department)
         request.user = self.supervisor
         self.assertTrue(inline.has_add_permission(request, self.dept_it))
+        self.assertTrue(inline.has_view_permission(request, self.dept_it))
+        self.assertTrue(inline.has_change_permission(request, self.dept_it))
+        self.assertTrue(inline.has_delete_permission(request, self.dept_it))
 
-        # Supervisor can change/delete a contact in their department
-        self.assertTrue(inline.has_change_permission(request, self.contact_smith))
-        self.assertTrue(inline.has_delete_permission(request, self.contact_smith))
-
-        # Supervisor cannot change/delete a contact in a department they don't supervise
-        User = get_user_model()
-        other_staff = User(is_staff=True)
-        request.user = other_staff
-        self.assertFalse(inline.has_change_permission(request, self.contact_smith))
-        self.assertFalse(inline.has_delete_permission(request, self.contact_smith))
+        # nonsupervisor cannot add/view/change/delete a contact in a department they don't supervise
+        request.user = self.nonsupervisor
+        self.assertFalse(inline.has_add_permission(request, self.dept_it))
+        self.assertFalse(inline.has_view_permission(request, self.dept_it))
+        self.assertFalse(inline.has_change_permission(request, self.dept_it))
+        self.assertFalse(inline.has_delete_permission(request, self.dept_it))
 
     def test_faxnumber_inline_permissions(self):
         from django_phonedir.admin import FaxNumberInline
