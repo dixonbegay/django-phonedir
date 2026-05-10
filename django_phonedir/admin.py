@@ -77,28 +77,28 @@ class FaxNumberInline(admin.TabularInline):
             return True
         if obj is None:
             return request.user.is_staff
-        return obj.department.supervisor == request.user
+        return obj.supervisor == request.user
 
     def has_view_permission(self, request, obj=None):
         if request.user.is_superuser:
             return True
         if obj is None:
             return request.user.is_staff
-        return obj.department.supervisor == request.user
+        return obj.supervisor == request.user
 
     def has_change_permission(self, request, obj=None):
         if request.user.is_superuser:
             return True
         if obj is None:
             return request.user.is_staff
-        return obj.department.supervisor == request.user
+        return obj.supervisor == request.user
 
     def has_delete_permission(self, request, obj=None):
         if request.user.is_superuser:
             return True
         if obj is None:
             return request.user.is_staff
-        return obj.department.supervisor == request.user
+        return obj.supervisor == request.user
 
 
 @admin.register(Department)
