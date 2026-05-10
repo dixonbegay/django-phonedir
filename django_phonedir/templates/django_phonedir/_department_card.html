@@ -1,0 +1,10 @@
+<div class="card bg-base-100 shadow">
+    <div class="card-body">
+        <a href="{{ department.get_absolute_url }}">
+            <h3 class="card-title">{{ department.name }}</h3>
+        </a>
+        <p>
+            <strong>Supervisor:</strong> {{ department.supervisor.get_full_name|default:department.supervisor.username }}
+        </p>
+    </div>
+</div>

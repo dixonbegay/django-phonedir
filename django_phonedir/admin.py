@@ -77,7 +77,7 @@ class FaxNumberInline(admin.TabularInline):
             return True
         if obj is None:
             return request.user.is_staff
-        return obj.supervisor == request.user
+        return obj.department.supervisor == request.user
 
     def has_view_permission(self, request, obj=None):
         if request.user.is_superuser:

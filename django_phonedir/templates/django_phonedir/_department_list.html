@@ -1,0 +1,8 @@
+{% load phonedir_tags %}
+{% if departments %}
+    {% for department in departments %}
+        {% render_department department %}
+    {% endfor %}
+{% else %}
+    <p>No departments found.</p>
+{% endif %}

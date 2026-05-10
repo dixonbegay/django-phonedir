@@ -1,0 +1,20 @@
+<div class="card bg-base-100 shadow">
+    <div class="card-body">
+        <h2 class="card-title">{{ contact.first_name }} {{ contact.last_name }}</h2>
+        <p>
+            <strong>Title:</strong> {{ contact.title }}
+        </p>
+        <p>
+            <strong>Extension:</strong> {{ contact.extension }}
+        </p>
+        <p>
+            <strong>Location:</strong> {{ contact.location }}
+        </p>
+        <p>
+            <strong>Phone:</strong> {{ contact.phone }}
+        </p>
+        <p>
+            <strong>Department:</strong> <a href="{{ contact.department.get_absolute_url }}">{{ contact.department.name }}</a>
+        </p>
+    </div>
+</div>

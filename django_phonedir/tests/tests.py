@@ -270,11 +270,17 @@ class PhoneDirTests(TestCase):
 
         # Supervisor can add fax numbers to their department (obj = parent Department)
         request.user = self.supervisor
-        self.assertTrue(inline.has_add_permission(request, self.dept_it))
-
-        # Supervisor can change/delete a fax number in their department
+        self.assertTrue(inline.has_view_permission(request, self.fax_it))
+        self.assertTrue(inline.has_add_permission(request, self.fax_it))
         self.assertTrue(inline.has_change_permission(request, self.fax_it))
         self.assertTrue(inline.has_delete_permission(request, self.fax_it))
+
+        # nonsupervisor cannot add/view/change/delete a contact in a department they don't supervise
+        request.user = self.nonsupervisor
+        self.assertFalse(inline.has_view_permission(request, self.fax_it))
+        self.assertFalse(inline.has_add_permission(request, self.fax_it))
+        self.assertFalse(inline.has_change_permission(request, self.fax_it))
+        self.assertFalse(inline.has_delete_permission(request, self.fax_it))
 
     def test_admin_classes_smoke_instantiation(self):
         # Ensures the admin module defines all expected ModelAdmin classes.
