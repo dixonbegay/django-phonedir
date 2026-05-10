@@ -24,7 +24,36 @@ class ContactInline(admin.StackedInline):
             {"classes": ["wide", "collapse"], "fields": ["title", "location"]},
         ),
     ]
-    extra = 0  # Provides one empty slot for a new contact
+    extra = 0
+
+    def has_add_permission(self, request, obj=None):
+        # obj is the parent Department; allow if the user supervises it
+        if request.user.is_superuser:
+            return True
+        if obj is None:
+            return request.user.is_staff
+        return obj.supervisor == request.user
+
+    def has_view_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return True
+        if obj is None:
+            return request.user.is_staff
+        return obj.department.supervisor == request.user
+
+    def has_change_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return True
+        if obj is None:
+            return request.user.is_staff
+        return obj.department.supervisor == request.user
+
+    def has_delete_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return True
+        if obj is None:
+            return request.user.is_staff
+        return obj.department.supervisor == request.user
 
 
 @admin.register(FaxNumber)
@@ -40,7 +69,36 @@ class FaxNumberInline(admin.TabularInline):
     The inline class for the FaxNumber model on the admin site.
     """
     model = FaxNumber
-    extra = 0  # Provides one empty slot for a new contact
+    extra = 0
+
+    def has_add_permission(self, request, obj=None):
+        # obj is the parent Department; allow if the user supervises it
+        if request.user.is_superuser:
+            return True
+        if obj is None:
+            return request.user.is_staff
+        return obj.supervisor == request.user
+
+    def has_view_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return True
+        if obj is None:
+            return request.user.is_staff
+        return obj.department.supervisor == request.user
+
+    def has_change_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return True
+        if obj is None:
+            return request.user.is_staff
+        return obj.department.supervisor == request.user
+
+    def has_delete_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return True
+        if obj is None:
+            return request.user.is_staff
+        return obj.department.supervisor == request.user
 
 
 @admin.register(Department)
@@ -51,8 +109,13 @@ class DepartmentAdmin(admin.ModelAdmin):
     list_display = ("name", "supervisor")
     inlines = [ContactInline, FaxNumberInline]
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(supervisor=request.user)
+
     def has_module_permission(self, request):
-        # Only allows users with is_staff = True to see this in the admin
         return request.user.is_staff
 
     def has_view_permission(self, request, obj=None):
@@ -62,7 +125,11 @@ class DepartmentAdmin(admin.ModelAdmin):
         return request.user.is_staff
 
     def has_change_permission(self, request, obj=None):
-        return request.user.is_staff
+        if request.user.is_superuser:
+            return True
+        if obj is None:
+            return request.user.is_staff
+        return request.user.is_staff and obj.supervisor == request.user
 
     def has_delete_permission(self, request, obj=None):
         return request.user.is_staff

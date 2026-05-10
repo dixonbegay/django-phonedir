@@ -198,7 +198,7 @@ class PhoneDirTests(TestCase):
 
         department_admin = DepartmentAdmin(Department, django_admin.site)
 
-        # Test with a staff user
+        # Staff user — list-level permissions (no obj)
         request.user = User(is_staff=True)
         self.assertTrue(department_admin.has_module_permission(request))
         self.assertTrue(department_admin.has_view_permission(request))
@@ -206,13 +206,68 @@ class PhoneDirTests(TestCase):
         self.assertTrue(department_admin.has_change_permission(request))
         self.assertTrue(department_admin.has_delete_permission(request))
 
-        # Test with a regular user
+        # Non-staff user — all denied
         request.user = User(is_staff=False)
         self.assertFalse(department_admin.has_module_permission(request))
         self.assertFalse(department_admin.has_view_permission(request))
         self.assertFalse(department_admin.has_add_permission(request))
         self.assertFalse(department_admin.has_change_permission(request))
         self.assertFalse(department_admin.has_delete_permission(request))
+
+    def test_department_admin_object_level_change_permission(self):
+        factory = RequestFactory()
+        request = factory.get("/")
+
+        department_admin = DepartmentAdmin(Department, django_admin.site)
+
+        # Supervisor of dept_it can change it
+        request.user = self.supervisor
+        self.assertTrue(department_admin.has_change_permission(request, self.dept_it))
+
+        # A different staff user cannot change dept_it
+        User = get_user_model()
+        other_staff = User(is_staff=True)
+        request.user = other_staff
+        self.assertFalse(department_admin.has_change_permission(request, self.dept_it))
+
+    def test_contact_inline_permissions(self):
+        from django_phonedir.admin import ContactInline
+
+        factory = RequestFactory()
+        request = factory.get("/")
+
+        inline = ContactInline(Department, django_admin.site)
+
+        # Supervisor can add contacts to their department (obj = parent Department)
+        request.user = self.supervisor
+        self.assertTrue(inline.has_add_permission(request, self.dept_it))
+
+        # Supervisor can change/delete a contact in their department
+        self.assertTrue(inline.has_change_permission(request, self.contact_smith))
+        self.assertTrue(inline.has_delete_permission(request, self.contact_smith))
+
+        # Supervisor cannot change/delete a contact in a department they don't supervise
+        User = get_user_model()
+        other_staff = User(is_staff=True)
+        request.user = other_staff
+        self.assertFalse(inline.has_change_permission(request, self.contact_smith))
+        self.assertFalse(inline.has_delete_permission(request, self.contact_smith))
+
+    def test_faxnumber_inline_permissions(self):
+        from django_phonedir.admin import FaxNumberInline
+
+        factory = RequestFactory()
+        request = factory.get("/")
+
+        inline = FaxNumberInline(Department, django_admin.site)
+
+        # Supervisor can add fax numbers to their department (obj = parent Department)
+        request.user = self.supervisor
+        self.assertTrue(inline.has_add_permission(request, self.dept_it))
+
+        # Supervisor can change/delete a fax number in their department
+        self.assertTrue(inline.has_change_permission(request, self.fax_it))
+        self.assertTrue(inline.has_delete_permission(request, self.fax_it))
 
     def test_admin_classes_smoke_instantiation(self):
         # Ensures the admin module defines all expected ModelAdmin classes.
