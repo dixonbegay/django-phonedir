@@ -18,11 +18,7 @@ class ContactInline(admin.StackedInline):
     model = Contact
     # fields = [("first_name", "last_name", "title", "extension"), ("location", "phone")]
     fieldsets = [
-        (None, {"fields": ["first_name", "last_name", "extension", "phone"]}),
-        (
-            "More options",
-            {"classes": ["wide", "collapse"], "fields": ["title", "location"]},
-        ),
+        (None, {"fields": ["first_name", "last_name", "extension", "phone", "title", "location"]}),
     ]
     extra = 0
 
