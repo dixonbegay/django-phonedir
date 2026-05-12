@@ -125,9 +125,7 @@ Below is a listing of each model, their attributes, and description for each att
 
 ## Development
 
-This project is under active development by myself.
-
-I will develop better documentation at a later date.
+Better documentation will be provided at a later date.
 
 ### Setup
 
