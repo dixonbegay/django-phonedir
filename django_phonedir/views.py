@@ -37,6 +37,7 @@ class SearchResultsView(ListView):
     model = Contact
     template_name = "django_phonedir/search_contact_results.html"
     context_object_name = "contacts"
+    paginate_by = 9
 
     def get_queryset(self) -> QuerySet[Contact]:
         query_request = self.request.GET.get("q")

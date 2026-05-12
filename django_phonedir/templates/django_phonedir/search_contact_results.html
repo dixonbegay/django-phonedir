@@ -3,7 +3,7 @@
     Search Results
 {% endblock title %}
 {% block content %}
-    {% if contacts|length > 0 %}
+    {% if contacts %}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {% for contact in contacts %}
                 <div class="card bg-base-100 shadow">
@@ -28,6 +28,23 @@
                 </div>
             {% endfor %}
         </div>
+        {% if is_paginated %}
+            <div class="flex justify-center mt-6">
+                <div class="join">
+                    {% if page_obj.has_previous %}
+                        <a class="join-item btn" href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}"><i class="fa-solid fa-angles-left"></i></a>
+                    {% else %}
+                        <button class="join-item btn btn-disabled"><i class="fa-solid fa-angles-left"></i></button>
+                    {% endif %}
+                    <button class="join-item btn">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</button>
+                    {% if page_obj.has_next %}
+                        <a class="join-item btn" href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}"><i class="fa-solid fa-angles-right"></i></a>
+                    {% else %}
+                        <button class="join-item btn btn-disabled"><i class="fa-solid fa-angles-right"></i></button>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
     {% else %}
         <h3 class="text-xl font-bold">No results.</h3>
     {% endif %}

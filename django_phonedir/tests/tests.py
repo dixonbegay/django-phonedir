@@ -307,6 +307,12 @@ class PhoneDirTests(TestCase):
         self.assertFalse(inline.has_change_permission(request, self.fax_it.department))
         self.assertFalse(inline.has_delete_permission(request, self.fax_it.department))
 
+    def test_search_results_pagination(self):
+        # With 3 contacts and paginate_by=25 there should be no pagination controls.
+        response = self.client.get(reverse("search_results"), data={"q": "a"})
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context["is_paginated"])
+
     def test_admin_classes_smoke_instantiation(self):
         # Ensures the admin module defines all expected ModelAdmin classes.
         ContactAdmin(Contact, django_admin.site)
