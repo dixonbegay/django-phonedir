@@ -106,7 +106,7 @@ Below is a listing of each model, their attributes, and description for each att
 - last_name : Last name.
 - title : Job title.
 - extension : Phone extension.
-- location : location the user.
+- location : location of the contact.
 - phone : PhoneNumberField (can be blank.)
 
 ## Development
