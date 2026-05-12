@@ -185,6 +185,31 @@ class PhoneDirTests(TestCase):
             ["Smith", "Smythe"],
         )
 
+    def test_search_filters_by_department_name(self):
+        factory = RequestFactory()
+        # "Information Technology" matches dept_it; all three IT contacts should appear
+        request = factory.get(reverse("search_results"), data={"q": "Information Technology"})
+
+        view = SearchResultsView()
+        view.setup(request)
+
+        qs = view.get_queryset()
+        self.assertIn(self.contact_smith, qs)
+        self.assertIn(self.contact_smythe, qs)
+        self.assertNotIn(self.contact_johnson, qs)
+
+    def test_search_filters_by_title(self):
+        factory = RequestFactory()
+        request = factory.get(reverse("search_results"), data={"q": "CEO"})
+
+        view = SearchResultsView()
+        view.setup(request)
+
+        qs = view.get_queryset()
+        self.assertIn(self.contact_smith, qs)
+        self.assertNotIn(self.contact_smythe, qs)
+        self.assertNotIn(self.contact_johnson, qs)
+
     def test_search_results_view_template_and_content(self):
         response = self.client.get(
             reverse("search_results"), data={"q": "Sm"}

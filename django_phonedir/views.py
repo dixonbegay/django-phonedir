@@ -13,10 +13,6 @@ class DepartmentListView(ListView):
     context_object_name = "departments"
     ordering = "name"
 
-    # def get_queryset(self, *args, **kwargs):
-    # We prefetch 'contacts' to avoid the N+1 query problem
-    # return Department.objects.prefetch_related("contacts").all()
-
 
 class DepartmentDetailView(DetailView):
     """
@@ -36,6 +32,7 @@ class DepartmentDetailView(DetailView):
 class SearchResultsView(ListView):
     """
     Django class based view that shows a list of contact models that match the query.
+    Example: /search?q=information%20technology
     """
     model = Contact
     template_name = "django_phonedir/search_contact_results.html"
@@ -46,5 +43,7 @@ class SearchResultsView(ListView):
         contact_list = Contact.objects.filter(
             Q(last_name__icontains=query_request)
             | Q(first_name__icontains=query_request)
+            | Q(department__name__icontains=query_request)
+            | Q(title__icontains=query_request)
         ).order_by("last_name")
         return contact_list
