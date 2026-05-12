@@ -53,15 +53,15 @@ listing of the paths with the associated views and template names.
 - Path: `departments`
   - View: DepartmentListView
   - Template Name: department_list
-  - Template File: department_listing.html
+  - Template File: django_phonedir/department_listing.html
 - Path: `department/<slug:short_name>/`
   - View: DepartmentDetailView
   - Template Name: department_detail
-  - Template File: department_detail.html
+  - Template File: django_phonedir/department_detail.html
 - Path: `search`
   - View: SearchResultsView
   - Template Name: search_results
-  - Template File: search_contact_results.html
+  - Template File: django_phonedir/search_contact_results.html
 
 ## Templates
 The templates that are provided require daisyUI version 5.5 or newer, Tailwind version 4 or newer, and Font Awesome version 7.0.1 or newer. You can copy the below and add to your base template file to get started quickly.
