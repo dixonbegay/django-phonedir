@@ -77,6 +77,17 @@ The templates that are provided require daisyUI version 5.5 or newer, Tailwind v
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 <style>
 ```
+
+Templates are extending from `"base.html"` and there is structured like so.
+```django
+{% extends "base.html" %}
+{% block title %}
+Title to be used by base.html
+{% endblock title %}
+{% block content %}
+<div>Content on the page in base.html</div>
+{% endblock content %}
+```
 ## Models
 
 To use a model, import from `django_phonedir.models` like so...
