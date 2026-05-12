@@ -17,4 +17,4 @@ python_version = "3.14"
 python_full_version = "3.14.0"
 
 [scripts]
-test = "python runtests.py"
+test = "pipenv run python runtests.py"
