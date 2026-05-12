@@ -58,7 +58,7 @@ listing of the paths with the associated views and template names.
   - View: DepartmentDetailView
   - Template Name: department_detail
   - Template File: django_phonedir/department_detail.html
-- Path: `search`
+- Path: `search?q=<query>`
   - View: SearchResultsView
   - Template Name: search_results
   - Template File: django_phonedir/search_contact_results.html
@@ -88,6 +88,9 @@ Title to be used by base.html
 <div>Content on the page in base.html</div>
 {% endblock content %}
 ```
+
+Views can still be utilized from this library and templates can be overriden in your Django application by creating a folder in a templates folder called `django_phonedir` and creating your own HTML files with the same name of the template that is used by that particular view. This way you can still utilize the views in this library and override the templates to change how the data is displayed.
+
 ## Models
 
 To use a model, import from `django_phonedir.models` like so...
