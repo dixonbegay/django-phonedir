@@ -78,7 +78,7 @@ The templates that are provided require daisyUI version 5.5 or newer, Tailwind v
 <style>
 ```
 
-Templates are extending from `"base.html"` and there is structured like so.
+Templates are extending from `"base.html"` and are structured like so.
 ```django
 {% extends "base.html" %}
 {% block title %}
