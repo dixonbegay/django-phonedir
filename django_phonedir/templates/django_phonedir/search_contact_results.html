@@ -3,30 +3,36 @@
     Search Results
 {% endblock title %}
 {% block content %}
+    <form action="{% url 'search_results' %}" method="get" class="flex gap-2 mb-6">
+        <input class="input input-bordered w-full" name="q" type="text" value="{{ request.GET.q }}" placeholder="Search for a name, title, or department.">
+        <input class="btn btn-primary" type="submit" value="Search">
+    </form>
     {% if contacts %}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {% for contact in contacts %}
-                <div class="card bg-base-100 shadow">
-                    <div class="card-body">
-                        <h3 class="card-title">{{ contact.first_name }} {{ contact.last_name }}</h3>
-                        <p>
-                            <strong>Title:</strong> {{ contact.title }}
-                        </p>
-                        <p>
-                            <strong>Extension:</strong> {{ contact.extension }}
-                        </p>
-                        <p>
-                            <strong>Location:</strong> {{ contact.location }}
-                        </p>
-                        <p>
-                            <strong>Phone:</strong> {{ contact.phone }}
-                        </p>
-                        <p>
-                            <strong>Department:</strong> <a href="{% url 'department_detail' contact.department.short_name %}">{{ contact.department.name }}</a>
-                        </p>
-                    </div>
-                </div>
-            {% endfor %}
+        <div class="overflow-x-auto">
+            <table class="table table-zebra">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Title</th>
+                        <th>Extension</th>
+                        <th>Location</th>
+                        <th>Phone</th>
+                        <th>Department</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contact in contacts %}
+                        <tr>
+                            <td>{{ contact.first_name }} {{ contact.last_name }}</td>
+                            <td>{{ contact.title }}</td>
+                            <td>{{ contact.extension }}</td>
+                            <td>{{ contact.location }}</td>
+                            <td>{{ contact.phone }}</td>
+                            <td><a href="{% url 'department_detail' contact.department.short_name %}">{{ contact.department.name }}</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
         {% if is_paginated %}
             <div class="flex justify-center mt-6">
