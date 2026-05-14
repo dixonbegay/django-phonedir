@@ -8,7 +8,7 @@ User = settings.AUTH_USER_MODEL
 
 class Department(models.Model):
     """
-    Django model representing a deparmtent of a company.
+    Django model representing a department of a company.
     """
 
     name = models.CharField(
@@ -48,9 +48,9 @@ class FaxNumber(models.Model):
     department = models.ForeignKey(
         Department, on_delete=models.CASCADE, related_name="faxnumbers"
     )
-    description = models.CharField(max_length=64)
-    phone = PhoneNumberField()
-    location = models.CharField(max_length=64)
+    description = models.CharField(max_length=64, blank=True)
+    phone = PhoneNumberField(blank=False)
+    location = models.CharField(max_length=64, blank=False)
 
     def __str__(self):
         """
@@ -68,11 +68,11 @@ class Contact(models.Model):
     department = models.ForeignKey(
         Department, on_delete=models.CASCADE, related_name="contacts"
     )
-    first_name = models.CharField(max_length=64)
-    last_name = models.CharField(max_length=64)
-    title = models.CharField(max_length=64)
-    extension = models.IntegerField()
-    location = models.CharField(max_length=64)
+    first_name = models.CharField(max_length=64, blank=False)
+    last_name = models.CharField(max_length=64, blank=False)
+    title = models.CharField(max_length=64, blank=False)
+    extension = models.IntegerField(blank=True)
+    location = models.CharField(max_length=64, blank=False)
     phone = PhoneNumberField(blank=True)
 
     def __str__(self):
