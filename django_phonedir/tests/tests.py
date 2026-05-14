@@ -231,16 +231,24 @@ class PhoneDirTests(TestCase):
 
         department_admin = DepartmentAdmin(Department, django_admin.site)
 
-        # Staff user — list-level permissions (no obj)
-        request.user = User(is_staff=True)
+        # Superuser — all permissions granted
+        request.user = User(is_staff=True, is_superuser=True)
         self.assertTrue(department_admin.has_module_permission(request))
         self.assertTrue(department_admin.has_view_permission(request))
         self.assertTrue(department_admin.has_add_permission(request))
         self.assertTrue(department_admin.has_change_permission(request))
         self.assertTrue(department_admin.has_delete_permission(request))
 
+        # Staff (non-superuser) — can view and change, but not add or delete
+        request.user = User(is_staff=True, is_superuser=False)
+        self.assertTrue(department_admin.has_module_permission(request))
+        self.assertTrue(department_admin.has_view_permission(request))
+        self.assertFalse(department_admin.has_add_permission(request))
+        self.assertTrue(department_admin.has_change_permission(request))
+        self.assertFalse(department_admin.has_delete_permission(request))
+
         # Non-staff user — all denied
-        request.user = User(is_staff=False)
+        request.user = User(is_staff=False, is_superuser=False)
         self.assertFalse(department_admin.has_module_permission(request))
         self.assertFalse(department_admin.has_view_permission(request))
         self.assertFalse(department_admin.has_add_permission(request))

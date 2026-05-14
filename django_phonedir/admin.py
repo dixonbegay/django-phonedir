@@ -118,7 +118,7 @@ class DepartmentAdmin(admin.ModelAdmin):
         return request.user.is_staff
 
     def has_add_permission(self, request):
-        return request.user.is_staff
+        return request.user.is_superuser
 
     def has_change_permission(self, request, obj=None):
         if request.user.is_superuser:
@@ -128,4 +128,4 @@ class DepartmentAdmin(admin.ModelAdmin):
         return request.user.is_staff and obj.supervisor == request.user
 
     def has_delete_permission(self, request, obj=None):
-        return request.user.is_staff
+        return request.user.is_superuser
