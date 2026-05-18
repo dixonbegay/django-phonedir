@@ -1,6 +1,83 @@
 from django.contrib import admin
 
-from django_phonedir.models import Contact, Department, FaxNumber
+from django_phonedir.models import (
+    Building,
+    Campus,
+    Contact,
+    Department,
+    FaxNumber,
+    Location,
+)
+
+
+@admin.register(Campus)
+class CampusAdmin(admin.ModelAdmin):
+    """
+    The main class for the Campus model on the admin site.
+    Only superusers can add, change, or delete campuses; staff can view.
+    """
+    def has_module_permission(self, request):
+        return request.user.is_staff
+
+    def has_view_permission(self, request, obj=None):
+        return request.user.is_staff
+
+    def has_add_permission(self, request):
+        return request.user.is_superuser
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_superuser
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.is_superuser
+
+
+@admin.register(Building)
+class BuildingAdmin(admin.ModelAdmin):
+    """
+    The main class for the Building model on the admin site.
+    Only superusers can add, change, or delete buildings; staff can view.
+    """
+    list_filter = ["campus"]
+
+    def has_module_permission(self, request):
+        return request.user.is_staff
+
+    def has_view_permission(self, request, obj=None):
+        return request.user.is_staff
+
+    def has_add_permission(self, request):
+        return request.user.is_superuser
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_superuser
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.is_superuser
+
+
+@admin.register(Location)
+class LocationAdmin(admin.ModelAdmin):
+    """
+    The main class for the Location model on the admin site.
+    Staff users have full CRUD access.
+    """
+    list_filter = ["building", "building__campus"]
+
+    def has_module_permission(self, request):
+        return request.user.is_staff
+
+    def has_view_permission(self, request, obj=None):
+        return request.user.is_staff
+
+    def has_add_permission(self, request):
+        return request.user.is_staff
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_staff
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.is_staff
 
 
 @admin.register(Contact)

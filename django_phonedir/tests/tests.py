@@ -5,9 +5,16 @@ from django.test import RequestFactory, TestCase, override_settings
 from django.urls import resolve, reverse
 from phonenumber_field.modelfields import PhoneNumberField
 
-from django_phonedir.admin import ContactAdmin, DepartmentAdmin, FaxNumberAdmin
+from django_phonedir.admin import (
+    BuildingAdmin,
+    CampusAdmin,
+    ContactAdmin,
+    DepartmentAdmin,
+    FaxNumberAdmin,
+    LocationAdmin,
+)
 from django_phonedir.apps import PhonedirConfig
-from django_phonedir.models import Contact, Department, FaxNumber
+from django_phonedir.models import Building, Campus, Contact, Department, FaxNumber, Location
 from django_phonedir.views import (
     DepartmentDetailView,
     DepartmentListView,
@@ -56,11 +63,15 @@ class PhoneDirTests(TestCase):
         cls.valid_phone = "+1 555 555 5555"
         cls.valid_phone_alt = "+1 555 555 1234"
 
+        cls.campus = Campus.objects.create(name="Main Campus")
+        cls.building = Building.objects.create(name="HQ", campus=cls.campus)
+        cls.location = Location.objects.create(room="Room 101", building=cls.building)
+
         cls.fax_it = FaxNumber.objects.create(
             department=cls.dept_it,
             description="Test Fax",
             phone=cls.valid_phone,
-            location="Test Location",
+            location=cls.location,
         )
 
         cls.contact_smith = Contact.objects.create(
@@ -69,7 +80,7 @@ class PhoneDirTests(TestCase):
             last_name="Smith",
             title="CEO",
             extension=21111,
-            location="CEO Office",
+            location=cls.location,
             phone=cls.valid_phone_alt,
         )
         cls.contact_smythe = Contact.objects.create(
@@ -78,7 +89,7 @@ class PhoneDirTests(TestCase):
             last_name="Smythe",
             title="CTO",
             extension=22222,
-            location="CTO Office",
+            location=cls.location,
             phone=cls.valid_phone_alt,
         )
         cls.contact_johnson = Contact.objects.create(
@@ -87,7 +98,7 @@ class PhoneDirTests(TestCase):
             last_name="Johnson",
             title="Manager",
             extension=33333,
-            location="HR Office",
+            location=cls.location,
             phone=cls.valid_phone_alt,
         )
 
@@ -321,8 +332,95 @@ class PhoneDirTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context["is_paginated"])
 
+    def test_campus_admin_permissions(self):
+        factory = RequestFactory()
+        request = factory.get("/")
+        User = get_user_model()
+
+        campus_admin = CampusAdmin(Campus, django_admin.site)
+
+        request.user = User(is_staff=True, is_superuser=True)
+        self.assertTrue(campus_admin.has_module_permission(request))
+        self.assertTrue(campus_admin.has_view_permission(request))
+        self.assertTrue(campus_admin.has_add_permission(request))
+        self.assertTrue(campus_admin.has_change_permission(request))
+        self.assertTrue(campus_admin.has_delete_permission(request))
+
+        request.user = User(is_staff=True, is_superuser=False)
+        self.assertTrue(campus_admin.has_module_permission(request))
+        self.assertTrue(campus_admin.has_view_permission(request))
+        self.assertFalse(campus_admin.has_add_permission(request))
+        self.assertFalse(campus_admin.has_change_permission(request))
+        self.assertFalse(campus_admin.has_delete_permission(request))
+
+        request.user = User(is_staff=False, is_superuser=False)
+        self.assertFalse(campus_admin.has_module_permission(request))
+        self.assertFalse(campus_admin.has_view_permission(request))
+        self.assertFalse(campus_admin.has_add_permission(request))
+        self.assertFalse(campus_admin.has_change_permission(request))
+        self.assertFalse(campus_admin.has_delete_permission(request))
+
+    def test_building_admin_permissions(self):
+        factory = RequestFactory()
+        request = factory.get("/")
+        User = get_user_model()
+
+        building_admin = BuildingAdmin(Building, django_admin.site)
+
+        request.user = User(is_staff=True, is_superuser=True)
+        self.assertTrue(building_admin.has_module_permission(request))
+        self.assertTrue(building_admin.has_view_permission(request))
+        self.assertTrue(building_admin.has_add_permission(request))
+        self.assertTrue(building_admin.has_change_permission(request))
+        self.assertTrue(building_admin.has_delete_permission(request))
+
+        request.user = User(is_staff=True, is_superuser=False)
+        self.assertTrue(building_admin.has_module_permission(request))
+        self.assertTrue(building_admin.has_view_permission(request))
+        self.assertFalse(building_admin.has_add_permission(request))
+        self.assertFalse(building_admin.has_change_permission(request))
+        self.assertFalse(building_admin.has_delete_permission(request))
+
+        request.user = User(is_staff=False, is_superuser=False)
+        self.assertFalse(building_admin.has_module_permission(request))
+        self.assertFalse(building_admin.has_view_permission(request))
+        self.assertFalse(building_admin.has_add_permission(request))
+        self.assertFalse(building_admin.has_change_permission(request))
+        self.assertFalse(building_admin.has_delete_permission(request))
+
+    def test_location_admin_permissions(self):
+        factory = RequestFactory()
+        request = factory.get("/")
+        User = get_user_model()
+
+        location_admin = LocationAdmin(Location, django_admin.site)
+
+        request.user = User(is_staff=True, is_superuser=True)
+        self.assertTrue(location_admin.has_module_permission(request))
+        self.assertTrue(location_admin.has_view_permission(request))
+        self.assertTrue(location_admin.has_add_permission(request))
+        self.assertTrue(location_admin.has_change_permission(request))
+        self.assertTrue(location_admin.has_delete_permission(request))
+
+        request.user = User(is_staff=True, is_superuser=False)
+        self.assertTrue(location_admin.has_module_permission(request))
+        self.assertTrue(location_admin.has_view_permission(request))
+        self.assertTrue(location_admin.has_add_permission(request))
+        self.assertTrue(location_admin.has_change_permission(request))
+        self.assertTrue(location_admin.has_delete_permission(request))
+
+        request.user = User(is_staff=False, is_superuser=False)
+        self.assertFalse(location_admin.has_module_permission(request))
+        self.assertFalse(location_admin.has_view_permission(request))
+        self.assertFalse(location_admin.has_add_permission(request))
+        self.assertFalse(location_admin.has_change_permission(request))
+        self.assertFalse(location_admin.has_delete_permission(request))
+
     def test_admin_classes_smoke_instantiation(self):
         # Ensures the admin module defines all expected ModelAdmin classes.
+        CampusAdmin(Campus, django_admin.site)
+        BuildingAdmin(Building, django_admin.site)
+        LocationAdmin(Location, django_admin.site)
         ContactAdmin(Contact, django_admin.site)
         FaxNumberAdmin(FaxNumber, django_admin.site)
         DepartmentAdmin(Department, django_admin.site)
