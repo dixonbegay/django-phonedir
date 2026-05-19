@@ -6,9 +6,9 @@ Tested and known to work with Django 5.2 and newer. Tested with Python 3.12 and
 newer.
 
 ## Requirements
-- Python >= 3.12
+- Python >= 3.14
 - [daisyUI](https://daisyui.com/) (only for provided templates)
-- Django >= 5.2
+- Django >= 6.0
 - django-phonenumber-field >= 8.4.0
 - phonenumberslite >= 9.0.26
 
