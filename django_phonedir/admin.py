@@ -30,6 +30,9 @@ class CampusAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return request.user.is_superuser
+    
+    class Meta:
+        verbose_name_plural = "Campuses"
 
 
 @admin.register(Building)
