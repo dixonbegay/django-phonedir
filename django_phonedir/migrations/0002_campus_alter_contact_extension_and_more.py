@@ -5,46 +5,26 @@ from django.db import migrations, models
 def handle_location_migration(apps, schema_editor):
     cursor = schema_editor.connection.cursor()
 
-    # Check for existing non-empty location data before doing any schema work
+    # Check for existing non-empty location data before doing any schema work.
+    # schema_editor.*_field() methods call column_sql() which requires field.concrete,
+    # an attribute set only via contribute_to_class in Django 6.x — unavailable on
+    # historical model fields. Raw SQL avoids that entirely.
     cursor.execute("SELECT 1 FROM django_phonedir_contact WHERE location != '' LIMIT 1")
     has_data = cursor.fetchone() is not None
     if not has_data:
         cursor.execute("SELECT 1 FROM django_phonedir_faxnumber WHERE location != '' LIMIT 1")
         has_data = cursor.fetchone() is not None
 
-    Contact = apps.get_model('django_phonedir', 'Contact')
-    FaxNumber = apps.get_model('django_phonedir', 'FaxNumber')
-    Location = apps.get_model('django_phonedir', 'Location')
-
-    contact_old = Contact._meta.get_field('location')
-    faxnumber_old = FaxNumber._meta.get_field('location')
-
     if has_data:
+        Location = apps.get_model('django_phonedir', 'Location')
         Campus = apps.get_model('django_phonedir', 'Campus')
         Building = apps.get_model('django_phonedir', 'Building')
 
-        # Rename location → location_text to preserve data while the new FK column is added
-        contact_temp = contact_old.clone()
-        contact_temp.name = contact_temp.attname = contact_temp.column = 'location_text'
-        schema_editor.alter_field(Contact, contact_old, contact_temp)
+        schema_editor.execute("ALTER TABLE django_phonedir_contact RENAME COLUMN location TO location_text")
+        schema_editor.execute("ALTER TABLE django_phonedir_faxnumber RENAME COLUMN location TO location_text")
+        schema_editor.execute("ALTER TABLE django_phonedir_contact ADD COLUMN location_id INTEGER NULL")
+        schema_editor.execute("ALTER TABLE django_phonedir_faxnumber ADD COLUMN location_id INTEGER NULL")
 
-        faxnumber_temp = faxnumber_old.clone()
-        faxnumber_temp.name = faxnumber_temp.attname = faxnumber_temp.column = 'location_text'
-        schema_editor.alter_field(FaxNumber, faxnumber_old, faxnumber_temp)
-
-        # Add new FK columns (creates location_id in the DB)
-        from django.db.models import ForeignKey
-        from django.db.models.deletion import SET_NULL
-
-        contact_fk = ForeignKey(Location, on_delete=SET_NULL, null=True, blank=True, related_name='contacts')
-        contact_fk.set_attributes_from_name('location')
-        schema_editor.add_field(Contact, contact_fk)
-
-        faxnumber_fk = ForeignKey(Location, on_delete=SET_NULL, null=True, blank=True, related_name='fax_numbers')
-        faxnumber_fk.set_attributes_from_name('location')
-        schema_editor.add_field(FaxNumber, faxnumber_fk)
-
-        # Migrate old strings into Location objects
         default_campus, _ = Campus.objects.get_or_create(name='Unknown')
         default_building, _ = Building.objects.get_or_create(name='Unknown', campus=default_campus)
 
@@ -64,25 +44,14 @@ def handle_location_migration(apps, schema_editor):
                 [loc.id, row_id],
             )
 
-        # Drop the temporary text columns
-        schema_editor.remove_field(Contact, contact_temp)
-        schema_editor.remove_field(FaxNumber, faxnumber_temp)
+        schema_editor.execute("ALTER TABLE django_phonedir_contact DROP COLUMN location_text")
+        schema_editor.execute("ALTER TABLE django_phonedir_faxnumber DROP COLUMN location_text")
 
     else:
-        # No existing data — drop old CharField and add new FK without any rename
-        schema_editor.remove_field(Contact, contact_old)
-        schema_editor.remove_field(FaxNumber, faxnumber_old)
-
-        from django.db.models import ForeignKey
-        from django.db.models.deletion import SET_NULL
-
-        contact_fk = ForeignKey(Location, on_delete=SET_NULL, null=True, blank=True, related_name='contacts')
-        contact_fk.set_attributes_from_name('location')
-        schema_editor.add_field(Contact, contact_fk)
-
-        faxnumber_fk = ForeignKey(Location, on_delete=SET_NULL, null=True, blank=True, related_name='fax_numbers')
-        faxnumber_fk.set_attributes_from_name('location')
-        schema_editor.add_field(FaxNumber, faxnumber_fk)
+        schema_editor.execute("ALTER TABLE django_phonedir_contact DROP COLUMN location")
+        schema_editor.execute("ALTER TABLE django_phonedir_faxnumber DROP COLUMN location")
+        schema_editor.execute("ALTER TABLE django_phonedir_contact ADD COLUMN location_id INTEGER NULL")
+        schema_editor.execute("ALTER TABLE django_phonedir_faxnumber ADD COLUMN location_id INTEGER NULL")
 
 
 class Migration(migrations.Migration):
