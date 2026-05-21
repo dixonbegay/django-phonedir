@@ -3,9 +3,15 @@
     Search Results
 {% endblock title %}
 {% block content %}
-    <form action="{% url 'search_results' %}" method="get" class="flex gap-2 mb-6">
-        <input class="input input-bordered w-full" name="q" type="text" value="{{ request.GET.q }}" placeholder="Search for a name, title, or department.">
-        <input class="btn btn-primary" type="submit" value="Search">
+    <form action="{% url 'search_results' %}"
+          method="get"
+          class="join w-full max-w-lg">
+        <input class="input input-bordered join-item flex-1"
+               name="q"
+               type="text"
+               value="{{ request.GET.q }}"
+               placeholder="Search for a name, title, or department.">
+        <input class="btn btn-primary join-item" type="submit" value="Search">
     </form>
     {% if contacts %}
         <div class="overflow-x-auto">
@@ -28,7 +34,9 @@
                             <td>{{ contact.extension }}</td>
                             <td>{{ contact.location }}</td>
                             <td>{{ contact.phone }}</td>
-                            <td><a href="{% url 'department_detail' contact.department.short_name %}">{{ contact.department.name }}</a></td>
+                            <td>
+                                <a href="{% url 'department_detail' contact.department.short_name %}">{{ contact.department.name }}</a>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -38,15 +46,21 @@
             <div class="flex justify-center mt-6">
                 <div class="join">
                     {% if page_obj.has_previous %}
-                        <a class="join-item btn" href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}"><i class="fa-solid fa-angles-left"></i></a>
+                        <a class="join-item btn"
+                           href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}"><i class="fa-solid fa-angles-left"></i></a>
                     {% else %}
-                        <button class="join-item btn btn-disabled"><i class="fa-solid fa-angles-left"></i></button>
+                        <button class="join-item btn btn-disabled">
+                            <i class="fa-solid fa-angles-left"></i>
+                        </button>
                     {% endif %}
                     <button class="join-item btn">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</button>
                     {% if page_obj.has_next %}
-                        <a class="join-item btn" href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}"><i class="fa-solid fa-angles-right"></i></a>
+                        <a class="join-item btn"
+                           href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}"><i class="fa-solid fa-angles-right"></i></a>
                     {% else %}
-                        <button class="join-item btn btn-disabled"><i class="fa-solid fa-angles-right"></i></button>
+                        <button class="join-item btn btn-disabled">
+                            <i class="fa-solid fa-angles-right"></i>
+                        </button>
                     {% endif %}
                 </div>
             </div>
