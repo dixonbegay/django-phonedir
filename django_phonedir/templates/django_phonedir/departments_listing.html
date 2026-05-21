@@ -3,18 +3,17 @@
     Departments
 {% endblock title %}
 {% block content %}
-    {% for dept in departments %}
-        <div class="card bg-base-100 shadow">
-            <div class="card-body">
-                <a href="{% url 'department_detail' dept.short_name %}">
-                    <h3 class="card-title">{{ dept.name }}</h3>
-                </a>
-                <p>
-                    <strong>Supervisor:</strong> {{ dept.supervisor.get_full_name|default:dept.supervisor.username }}
-                </p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        {% for dept in departments %}
+            <div class="card bg-base-100 shadow">
+                <div class="card-body">
+                    <a href="{% url 'department_detail' dept.short_name %}">
+                        <h3 class="card-title">{{ dept.name }}</h3>
+                    </a>
+                </div>
             </div>
-        </div>
-    {% empty %}
-        <p>No departments found.</p>
-    {% endfor %}
+        {% empty %}
+            <p class="col-span-4">No departments found.</p>
+        {% endfor %}
+    </div>
 {% endblock content %}
