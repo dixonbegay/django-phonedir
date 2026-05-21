@@ -1,4 +1,5 @@
 from django.db.models import Q, QuerySet
+from django.shortcuts import redirect
 from django.views.generic import DetailView, ListView
 
 from django_phonedir.models import Contact, Department
@@ -38,6 +39,11 @@ class SearchResultsView(ListView):
     template_name = "django_phonedir/search_contact_results.html"
     context_object_name = "contacts"
     paginate_by = 12
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.GET.get("q"):
+            return redirect("department_list")
+        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self) -> QuerySet[Contact]:
         query_request = self.request.GET.get("q")
