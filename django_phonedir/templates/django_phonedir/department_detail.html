@@ -4,13 +4,11 @@
 {% endblock title %}
 {% block content %}
     <div>
-        <p>
-            <strong>Supervisor:</strong> {{ department.supervisor.get_full_name|default:department.supervisor.username }}
-        </p>
         {% for faxnumber in department.faxnumbers.all %}
-            <p>
-                <strong>{{ faxnumber.description }} {{ faxnumber.location }} — Fax Number:</strong> {{ faxnumber.phone }}
-            </p>
+            <p><strong>Fax Number:</strong> {{ faxnumber.phone }}</p>
+                <p>&emsp;{{ faxnumber.description }}</p>
+                <p>&emsp;<strong>Location:</strong> {{ faxnumber.location }}</p>
+            <br />
         {% empty %}
             <p>No fax numbers listed for this department.</p>
         {% endfor %}
